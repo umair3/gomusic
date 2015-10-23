@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.shoaib.gomusic.songPlayBackAcitivty">
+
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar">
+
+    </include>
+
+    <ImageView
+        android:id="@+id/albumImageForSongActivity"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/music1"/>
+
+
+    <LinearLayout
+        android:id="@+id/lnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/albumImageForSongActivity"
+        android:orientation="vertical"
+        android:elevation="8dp"
+        android:background="@color/colorPrimary"
+        >
+
+
+
+        <TextView
+            android:id="@+id/songNameForSongActivity"
+            android:layout_width="400dp"
+            android:layout_height="60dp"
+            android:paddingTop="6dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
+            android:elevation="4dp"
+            android:lines="1"
+            android:text="Hello Just Testing"
+            android:textColor="#fff"
+            android:textSize="26sp"/>
+
+        <TextView
+            android:id="@+id/artistNameForSongActivity"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
+            android:lines="1"
+            android:text="Hello Just Testing"
+            android:textColor="#fff"
+            android:textSize="23sp"/>
+
+        </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/frameLayout"
+        android:layout_below="@id/lnLayout"></FrameLayout>
+
+
+
+</RelativeLayout>

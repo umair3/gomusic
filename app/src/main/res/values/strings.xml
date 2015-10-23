@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GoMusic</string>
+    <string name="title_activity_main">GoMusic</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="shuffle">shuffle</string>
+    <string name="exit">Exit</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_album_songs">albumSongsActivity</string>
+    <string name="title_activity_detailed_album">detailedAlbumActivity</string>
+    <string name="title_activity_song_play_back_acitivty">songPlayBackAcitivty</string>
+    <string name="end_button">Exit The Player</string>
+</resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="3dp">
+
+ <ImageView
+     android:id="@+id/albumCoverPhoto"
+     android:layout_width="48dp"
+     android:layout_height="48dp"
+     android:layout_marginLeft="8dp"
+
+
+     />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="6dp"
+        android:paddingBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/albumTitleText"
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:layout_margin="0dp"
+            android:text="Hello Testing"
+            android:textColor="#000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/albumSingerText"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Hello Text"
+            android:layout_below="@+id/albumTitleText"
+            android:lines="1"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/albumTotalSongsText"
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/albumTitleText"
+            android:layout_toRightOf="@+id/albumSingerText"
+            android:layout_toEndOf="@+id/albumSingerText"
+            android:text="N Song(s)"
+            android:textSize="14sp" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

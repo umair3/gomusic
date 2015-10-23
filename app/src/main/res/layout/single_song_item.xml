@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="horizontal">
+
+
+    <ImageView
+        android:id="@+id/songIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+
+        android:id="@+id/songName"
+        android:layout_toEndOf="@+id/songIcon"
+        android:layout_toRightOf="@+id/songIcon"
+        android:layout_marginLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="20dp"
+        android:text="SongName" />
+
+    <TextView
+
+        android:id="@+id/songDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/songName"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/songIcon"
+        android:textSize="16dp"
+        android:text="SongDescription"
+
+        />
+
+    <LinearLayout
+
+        android:layout_marginTop="6dp"
+        android:layout_below="@+id/songDescription"
+        android:orientation="vertical"
+        android:id="@+id/theEmptySpace"
+        android:background="#000"
+        android:layout_width="match_parent"
+        android:layout_height="2dp">
+
+        </LinearLayout>
+
+
+</RelativeLayout>
