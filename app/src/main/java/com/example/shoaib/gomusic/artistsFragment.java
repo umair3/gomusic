@@ -1,22 +1,22 @@
 package com.example.shoaib.gomusic;
 
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.provider.MediaStore;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import adapters_Miscellenous.customSimpleCursorAdapter2Artist;
 
 
@@ -32,6 +32,7 @@ public class artistsFragment extends android.support.v4.app.Fragment implements 
 
     private ListView mListView;
     private customSimpleCursorAdapter2Artist mListAdapter;
+    private Intent mIntent;
 
 
     public artistsFragment() {
@@ -46,13 +47,19 @@ public class artistsFragment extends android.support.v4.app.Fragment implements 
 
         View layout = inflater.inflate(R.layout.fragment_artists, container, false);
         mListView = (ListView) layout.findViewById(R.id.artistListView);
-
-
         getLoaderManager().initLoader(25, null, this);
-
-
-
         mArtistsItemsList = new ArrayList<singleArtistItem>();
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                mIntent = new Intent(getActivity(),detailedArtistActivity.class);
+                mIntent.putExtra("whoCalls","fromArtistFragment");
+                mIntent.putExtra("theArtistName",mArtistsItemsList.get(position).getArtistItem_Title());
+                startActivity(mIntent);
+
+            }
+        });
 
 
         return layout;

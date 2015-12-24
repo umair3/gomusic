@@ -38,7 +38,7 @@ public class songPlayBackAcitivty extends AppCompatActivity implements LoaderMan
     private ArrayList<singleSongItem> songsListForPlayBack;
 
     private Intent mPlayIntent;
-    private musicController mMusicController;
+    private static musicController mMusicController;
     private musicService mMusicService;
     private boolean mMusicServiceBound=false;
     private int checkNewSong;
@@ -89,36 +89,6 @@ public class songPlayBackAcitivty extends AppCompatActivity implements LoaderMan
 
         SetUpMusicPlayer();
 
-
-    }
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        unbindService(mServiceConnection);
-        Log.e("New Service","A new serivce");
-    }
-
-    @Override
-    public void onAttachedToWindow() {
-        super.onAttachedToWindow();
-
-        try{
-
-          mMusicController.show(0);
-
-
-        }catch(Exception e){
-           e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
         mServiceConnection = new ServiceConnection() {
 
             @Override
@@ -150,6 +120,78 @@ public class songPlayBackAcitivty extends AppCompatActivity implements LoaderMan
 
 
         }
+
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //outState.putString("currentSongID",String.valueOf(songNowPlaying.getSongID()));
+        //outState.putInt("currentPosition",mMusicService.getCurrentPostion());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        unbindService(mServiceConnection);
+        Log.e("New Service","A new serivce");
+    }
+
+
+
+//    @Override
+//    public void onAttachedToWindow() {
+//        super.onAttachedToWindow();
+//
+//        try{
+//
+//         // mMusicController.show(0);
+//         //mMusicController.setBackgroundColor(Color.GREEN);
+//
+//
+//
+//        }catch(Exception e){
+//           e.printStackTrace();
+//        }
+//    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+//        mServiceConnection = new ServiceConnection() {
+//
+//            @Override
+//            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+//                musicService.musicBinder mMusicBinder = (musicService.musicBinder) iBinder;
+//                mMusicService = mMusicBinder.getServiceInstanceForClient();
+//                mMusicService.setmSongsList(songsListForPlayBack);
+//                mMusicService.setSong(checkNewSong);
+//                mMusicServiceBound=true;
+//
+//                Log.e("HAHAH","newConnectionBoss");
+//
+//            }
+//
+//            @Override
+//            public void onServiceDisconnected(ComponentName componentName) {
+//                mMusicServiceBound=false;
+//
+//            }
+//        };
+//
+//        if (mPlayIntent==null){
+//
+//            mPlayIntent = new Intent (this, musicService.class);
+//            bindService(mPlayIntent,mServiceConnection, Context.BIND_AUTO_CREATE);
+//            startService(mPlayIntent);
+//
+//
+//
+//
+//        }
 
 
 
@@ -283,7 +325,7 @@ public class songPlayBackAcitivty extends AppCompatActivity implements LoaderMan
 
         if (mMusicService !=null && mMusicServiceBound){
 
-            return mMusicService.getBurrferAge();
+            return mMusicService.getBufferAge();
         }
 
         return 0;
@@ -335,4 +377,15 @@ public class songPlayBackAcitivty extends AppCompatActivity implements LoaderMan
 
 
     }
+
+    public static void displayMusicController ()
+    {
+
+        mMusicController.show(0);
+        mMusicController.setBackgroundColor(Color.argb(180,57,73,171));
+        //mMusicController.canScrollVertically(1);
+
+    }
+
+
 }

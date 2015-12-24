@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -90,8 +91,9 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
                Intent mIntent = new Intent(detailedAlbumActivity.this,songPlayBackAcitivty.class);
                Bundle songItemBundle = new Bundle();
                songItemBundle.putParcelable("songItemToSend",songsList.get(position));
-               songItemBundle.putInt("songToSet",position);
-               songItemBundle.putParcelableArrayList("listOfSongs",songsList);
+               songItemBundle.putInt("songToSet", position);
+               songItemBundle.putParcelableArrayList("listOfSongs", songsList);
+               Toast.makeText(getApplicationContext(),songsList.get(position).getSongTitle(),Toast.LENGTH_SHORT).show();
                mIntent.putExtras(songItemBundle);
                startActivity(mIntent);
 

@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Shoaib on 10/11/2015.
@@ -71,6 +70,29 @@ public class singleArtistItem implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(artistItem_Title);
+        parcel.writeInt(artistItem_TotalSongs);
+
+    }
+
+    public static final Creator<singleArtistItem> CREATOR = new Creator<singleArtistItem>() {
+        @Override
+        public singleArtistItem createFromParcel(Parcel parcel) {
+
+            return  new singleArtistItem(parcel);
+        }
+
+        @Override
+        public singleArtistItem[] newArray(int size) {
+
+            return new singleArtistItem[size];
+        }
+    };
+
+    private singleArtistItem (Parcel parcel) {
+
+        this.artistItem_Title = parcel.readString();
+        this.artistItem_TotalSongs= parcel.readInt();
 
     }
 }

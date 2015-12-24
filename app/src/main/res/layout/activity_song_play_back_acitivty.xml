@@ -14,8 +14,9 @@
         android:id="@+id/albumImageForSongActivity"
         android:layout_width="match_parent"
         android:layout_height="350dp"
+        android:layout_alignParentTop="true"
         android:scaleType="fitXY"
-        android:src="@drawable/music1"/>
+        android:src="@drawable/music1" />
 
 
     <LinearLayout
@@ -23,47 +24,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/albumImageForSongActivity"
-        android:orientation="vertical"
-        android:elevation="8dp"
         android:background="@color/colorPrimary"
-        >
-
+        android:elevation="8dp"
+        android:orientation="vertical">
 
 
         <TextView
             android:id="@+id/songNameForSongActivity"
             android:layout_width="400dp"
             android:layout_height="60dp"
-            android:paddingTop="6dp"
-            android:layout_marginTop="4dp"
             android:layout_marginLeft="25dp"
             android:layout_marginStart="25dp"
+            android:layout_marginTop="4dp"
             android:elevation="4dp"
             android:lines="1"
+            android:paddingTop="6dp"
             android:text="Hello Just Testing"
             android:textColor="#fff"
-            android:textSize="26sp"/>
+            android:textSize="26sp" />
 
         <TextView
             android:id="@+id/artistNameForSongActivity"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:layout_marginLeft="25dp"
             android:layout_marginStart="25dp"
+            android:layout_marginTop="2dp"
             android:lines="1"
             android:text="Hello Just Testing"
             android:textColor="#fff"
-            android:textSize="23sp"/>
+            android:textSize="23sp" />
 
-        </LinearLayout>
+    </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:id="@+id/frameLayout"
-        android:layout_below="@id/lnLayout"></FrameLayout>
+        android:layout_below="@id/lnLayout">
 
+        </FrameLayout>
 
 
 </RelativeLayout>

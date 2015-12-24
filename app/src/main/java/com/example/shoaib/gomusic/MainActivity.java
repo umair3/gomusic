@@ -1,20 +1,22 @@
 package com.example.shoaib.gomusic;
 
 
-import android.app.FragmentTransaction;
 import android.content.ContentResolver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private MyFragmentAdapter adapterForViewPager;
 
-    private static final int totalFragmentsCount = 3;
+    private static final int totalFragmentsCount = 5;
     private ContentResolver contentResolver;
 
     @Override
@@ -38,11 +40,23 @@ public class MainActivity extends AppCompatActivity {
         contentResolver = getContentResolver();
 
         tabLayout = (TabLayout) findViewById(R.id.MaterialTabs);
-        tabLayout.addTab(tabLayout.newTab().setText("Songs"));
-        tabLayout.addTab(tabLayout.newTab().setText("Artists"));
-        tabLayout.addTab(tabLayout.newTab().setText("Albums"));
+
+        TabLayout.Tab songsTab = tabLayout.newTab().setText("Songs");
+        TabLayout.Tab ArtistsTab = tabLayout.newTab().setText("Artists");
+        TabLayout.Tab albumsTab = tabLayout.newTab().setText("Albums");
+        TabLayout.Tab playlistTab = tabLayout.newTab().setText("PlayLists");
+        TabLayout.Tab soundCloudTab = tabLayout.newTab().setText("SoundCloud");
+
+
+        tabLayout.addTab(songsTab);
+        tabLayout.addTab(ArtistsTab);
+        tabLayout.addTab(albumsTab);
+        tabLayout.addTab(playlistTab);
+        tabLayout.addTab(soundCloudTab);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setTabTextColors(Color.LTGRAY, Color.WHITE);
-        tabLayout.setElevation(2.0f);
+
+        //tabLayout.setElevation(2.0f);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -61,11 +75,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        int [] tabIconsArray = {R.drawable.songs_tabicon,R.drawable.artist_tabicon,
+                                R.drawable.album_tabicon,R.drawable.playlist_tabicon,R.drawable.soundcloud_tabicon};
+
+        LayoutInflater mInflater = getLayoutInflater();
+
+
+        for (int tabs=0 ; tabs <tabLayout.getTabCount() ; tabs++)
+        {
+            View mView = mInflater.inflate(getResources().getLayout(R.layout.tabs_custom_view),null);
+            ((TextView)mView.findViewById(R.id.tabText)).setText((getResources().getStringArray(R.array.tab_names)[tabs]).toUpperCase());
+            ((ImageView)mView.findViewById(R.id.tabImage)).setImageResource(tabIconsArray[tabs]);
+            tabLayout.getTabAt(tabs).setCustomView(mView);
+
+        }
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         adapterForViewPager = new MyFragmentAdapter(getSupportFragmentManager());
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(adapterForViewPager);
+        viewPager.setOffscreenPageLimit(3);
+        viewPager.setAdapter(adapterForViewPager);  //passing an extended Fragment Pager Adapter
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
 
             @Override
@@ -135,11 +165,18 @@ public class MainActivity extends AppCompatActivity {
 
             Fragment fragment = null;
             if (position == 0) {
-                fragment = new songsFragment();
+               // fragment = new songsFragment();
+                fragment = new songsFragment_withRecycler();
             } else if (position == 1) {
                 fragment = new artistsFragment();
             } else if (position == 2) {
                 fragment = new albumsFragment();
+            }
+            else if (position == 3) {
+                fragment = new playListFragment();
+            }
+            else if (position == 4) {
+                fragment = new soundCloudFragment();
             }
             return fragment;
         }
@@ -148,6 +185,11 @@ public class MainActivity extends AppCompatActivity {
         public int getCount() {
 
             return totalFragmentsCount;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return getResources().getStringArray(R.array.tab_names)[position];
         }
     }
 }

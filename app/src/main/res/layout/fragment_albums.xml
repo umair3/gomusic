@@ -2,8 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="#ddd"
     android:orientation="vertical"
+
+
     tools:context="com.example.shoaib.gomusic.albumsFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -17,5 +19,6 @@
         android:fastScrollEnabled="true"
         android:divider="@android:color/transparent"
         android:dividerHeight="9dp"
+        android:background="#fff"
   />
 </LinearLayout>

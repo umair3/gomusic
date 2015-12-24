@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.example.shoaib.gomusic.singleSongItem;
+import com.example.shoaib.gomusic.songPlayBackAcitivty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,6 @@ public class musicService extends Service implements MediaPlayer.OnErrorListener
 
     private int songPosition=0;
     private List<singleSongItem> mSongsList;
-
     private final musicBinder mMusicBinder = new musicBinder();
 
     // Here Starts the implementation of the Service itself
@@ -100,7 +100,6 @@ public class musicService extends Service implements MediaPlayer.OnErrorListener
 
     }
 
-
     public void setmSongsList (ArrayList<singleSongItem> theSongsList){
 
         mSongsList = theSongsList;
@@ -155,9 +154,10 @@ public class musicService extends Service implements MediaPlayer.OnErrorListener
         return mMediaPlayer.getAudioSessionId();
     }
 
-    public int getBurrferAge(){
+    public int getBufferAge(){
 
-        return 0;
+        int percentage = (mMediaPlayer.getCurrentPosition() * 100) / mMediaPlayer.getDuration();
+        return percentage;
     }
 
 
@@ -170,7 +170,10 @@ public class musicService extends Service implements MediaPlayer.OnErrorListener
 
     public void pausePlayer (){
 
-        mMediaPlayer.pause();
+        if (mMediaPlayer.isPlaying())
+        {
+            mMediaPlayer.pause();
+        }
     }
 
     public void seekTo (int pos){
@@ -180,14 +183,20 @@ public class musicService extends Service implements MediaPlayer.OnErrorListener
 
     public void go (){
 
-        if(songPosition==0 && !mMediaPlayer.isPlaying()){
-
-            playSong();
-        }
-        else{
-
-            mMediaPlayer.start();
-        }
+//        if(songPosition==0 && !mMediaPlayer.isPlaying()){
+//
+//
+//            playSong();
+//
+//        }
+//        else{
+//
+//            mMediaPlayer.start();
+//
+//        }
+                                // Made a change here , Commented the if else and added this simple
+                                // simple line of code
+        mMediaPlayer.start();
 
     }
 
@@ -236,10 +245,21 @@ public class musicService extends Service implements MediaPlayer.OnErrorListener
 
     }
 
+    public boolean getMediaPlayerState ()
+    {
+
+        if (mMediaPlayer.isPlaying())
+        {
+            return true;
+        }
+        return false;
+    }
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
 
         mediaPlayer.start();
+        songPlayBackAcitivty.displayMusicController();
+
 
     }
 

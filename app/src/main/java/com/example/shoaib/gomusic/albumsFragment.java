@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,47 +43,71 @@ public class albumsFragment extends android.support.v4.app.Fragment
 
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        albumsUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+        getLoaderManager().initLoader(0, null, this);
+        albumsList = new ArrayList<singleAlbumItem>();
+
+        Log.v("The1Msg","simpleOnCreate called");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View layout = inflater.inflate(R.layout.fragment_albums, container, false);
         albumsListView = (ListView) layout.findViewById(R.id.albumListView);
-        albumsUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
-        getLoaderManager().initLoader(0, null, this);
-        albumsList = new ArrayList<singleAlbumItem>();
-
         albumsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
                 singleAlbumItem testItem= albumsList.get(position);
                 Toast.makeText(getActivity(), testItem.getAlbumTitle(), Toast.LENGTH_SHORT).show();
-
                 //String albumTitlePlusArt[] = new String [] {testItem.getAlbumTitle(),testItem.getBitmapPath()};
-
                 Bundle albumItemBundle = new Bundle();
                 albumItemBundle.putParcelable("theAlbumToSend",testItem);
                 Intent albumIntent = new Intent(getActivity(),detailedAlbumActivity.class);
                 albumIntent.putExtras(albumItemBundle);
-               // albumIntent.putExtra("the_Title",albumTitlePlusArt);
                 startActivity(albumIntent);
 
             }
         });
+//        albumsUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+//        getLoaderManager().initLoader(0, null, this);
+//        albumsList = new ArrayList<singleAlbumItem>();
 
+//        albumsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+//
+//                singleAlbumItem testItem= albumsList.get(position);
+//                Toast.makeText(getActivity(), testItem.getAlbumTitle(), Toast.LENGTH_SHORT).show();
+//                //String albumTitlePlusArt[] = new String [] {testItem.getAlbumTitle(),testItem.getBitmapPath()};
+//                Bundle albumItemBundle = new Bundle();
+//                albumItemBundle.putParcelable("theAlbumToSend",testItem);
+//                Intent albumIntent = new Intent(getActivity(),detailedAlbumActivity.class);
+//                albumIntent.putExtras(albumItemBundle);
+//                startActivity(albumIntent);
+//
+//            }
+//        });
+        Log.v("The2Msg","OnCreateView called");
         return layout;
-      //  albumsList = new ArrayList<singleAlbumItem>();
     }
 
     @Override
     public android.support.v4.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
+        //previous entry at the place of NUMBER OF SONGS Projection
+        //MediaStore.Audio.Artists.Albums.NUMBER_OF_SONGS
         // MediaStore.Audio.Albums.ALBUM_ART,
         return new android.support.v4.content.CursorLoader(getActivity(), albumsUri,
-                new String[]{MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM, MediaStore.Audio.Albums.ARTIST,
-                        MediaStore.Audio.Artists.Albums.NUMBER_OF_SONGS,MediaStore.Audio.AlbumColumns.ALBUM_ART},
-                null, null, MediaStore.Audio.Media.ALBUM + " ASC");
+               new String[]{MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM, MediaStore.Audio.Albums.ARTIST,
+                            MediaStore.Audio.Albums.NUMBER_OF_SONGS,MediaStore.Audio.AlbumColumns.ALBUM_ART},
+                            null, null, MediaStore.Audio.Media.ALBUM + " ASC");
     }
 
     @Override
@@ -91,7 +116,6 @@ public class albumsFragment extends android.support.v4.app.Fragment
 
         mSimpleCursorAdapter = new customImagarySimpleCursorAdapter(getActivity(),R.layout.single_album_item,data,
                                new String[]{"ALBUM","Artist","numsongs","album_art"},new int[]{R.id.albumTitleText,R.id.albumSingerText,R.id.albumTotalSongsText,R.id.albumCoverPhoto},0);
-        //mCursorAdapter= new MyCursorAdapter(getActivity(),data,true);
         albumsListView.setAdapter(mSimpleCursorAdapter);
 
         if (data.moveToFirst()){
@@ -117,7 +141,6 @@ public class albumsFragment extends android.support.v4.app.Fragment
 
     @Override
     public void onLoaderReset(android.support.v4.content.Loader<Cursor> loader) {
-
 
         mSimpleCursorAdapter.swapCursor(null);
     }

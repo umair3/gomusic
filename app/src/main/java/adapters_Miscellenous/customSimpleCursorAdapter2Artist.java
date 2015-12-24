@@ -2,7 +2,6 @@ package adapters_Miscellenous;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.MediaStore;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +12,8 @@ import com.example.shoaib.gomusic.R;
  * Created by Shoaib on 10/16/2015.
  */
 public class customSimpleCursorAdapter2Artist extends SimpleCursorAdapter {
+
+
     public customSimpleCursorAdapter2Artist(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
         super(context, layout, c, from, to, flags);
 

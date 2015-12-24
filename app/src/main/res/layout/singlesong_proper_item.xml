@@ -5,6 +5,7 @@
     android:id="@+id/mainDetailView"
     android:padding="4dp"
     android:layout_marginLeft="4dp"
+    android:background="@drawable/backs_effects"
     android:orientation="vertical">
 
     <ImageView
@@ -41,6 +42,7 @@
         android:textSize="14sp"
         android:lines="1"
         android:text="Hello Testing"
+        android:textColor="@color/link_text_material_light"
         />
 
     <TextView
@@ -52,6 +54,7 @@
         android:layout_below="@+id/songTitleProper"
         android:textSize="14sp"
         android:text="Duration"
+        android:textColor="@color/link_text_material_light"
         />
 
 

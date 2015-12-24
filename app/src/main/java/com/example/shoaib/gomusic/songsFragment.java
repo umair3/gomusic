@@ -1,30 +1,24 @@
 package com.example.shoaib.gomusic;
 
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
+import android.app.Fragment;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.provider.MediaStore;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.content.ContentResolver;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import adapters_Miscellenous.customSimpleCursorAdapter;
-import adapters_Miscellenous.songsListRecyclerAdapter;
 
 
 /**
@@ -42,13 +36,23 @@ public class songsFragment extends android.support.v4.app.Fragment implements Lo
 //    private ContentResolver contentResolver;
 
     private Uri songsUri;
-    private List<singleSongItem> songsList;
+    private ArrayList<singleSongItem> songsList;
     private ListView mListView;
     private customSimpleCursorAdapter mSimpleCursorAdapter;
+    private Intent mIntent;
 
     public songsFragment() {
         // Required empty public constructor
     }
+
+//    @Override
+//    public void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//
+//        outState.putParcelable("TheState",mListView.onSaveInstanceState());
+//       // state=mListView.onSaveInstanceState();
+//
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,52 +61,39 @@ public class songsFragment extends android.support.v4.app.Fragment implements Lo
 
         View layout = inflater.inflate(R.layout.fragment_songs, container, false);
 
+
         songsUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         songsList= new ArrayList<singleSongItem>();
         getLoaderManager().initLoader(10, null, this);
         mListView = (ListView) layout.findViewById(R.id.songsListView);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                mIntent = new Intent(getActivity(),songPlayBackAcitivty.class);
+                Bundle contentBundle = new Bundle();
+                singleSongItem clickedItem = songsList.get(position);
+                contentBundle.putParcelable("songItemToSend", songsList.get(position));
+                contentBundle.putInt("songToSet", position);
+                contentBundle.putParcelableArrayList("listOfSongs", songsList);
+                Toast.makeText(getActivity(), songsList.get(position).getSongTitle(), Toast.LENGTH_SHORT).show();
+                mIntent.putExtras(contentBundle);
+                startActivity(mIntent);
 
 
-//        songsList= new ArrayList<singleSongItem>();
-//        recyclerView = (RecyclerView)layout.findViewById(R.id.songsList);
-//        contentResolver = getActivity().getContentResolver();
-//        getData();
-//        madapter = new songsListRecyclerAdapter(getActivity(),songsList);
-//        recyclerView.setAdapter(madapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            }
+        });
+
+//        if (savedInstanceState!=null)
+//        {
+//            mListView.onRestoreInstanceState(savedInstanceState.getParcelable("TheState"));
+//
+//        }
+
         return layout;
 
     }
 
-//    public void getData () {
-//
-//        Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-//        String orderBy = android.provider.MediaStore.Audio.Media.TITLE;
-//        Cursor musicCursor = contentResolver.query(musicUri,null,null,null,orderBy);
-//
-//        if(musicCursor!=null && musicCursor.moveToFirst()){
-//            //get columns
-//
-//            int idColumn = musicCursor.getColumnIndex
-//                    (android.provider.MediaStore.Audio.Media._ID);
-//            int titleColumn = musicCursor.getColumnIndex
-//                    (android.provider.MediaStore.Audio.Media.TITLE);
-//            int artistColumn = musicCursor.getColumnIndex
-//                    (android.provider.MediaStore.Audio.Media.ARTIST);
-//
-//
-//            //add songs to list
-//            do {
-//                long thisId = musicCursor.getLong(idColumn);
-//                String thisTitle = musicCursor.getString(titleColumn);
-//                String thisArtist = musicCursor.getString(artistColumn);
-//                songsList.add(new singleSongItem(thisId, thisTitle, thisArtist));
-//            }
-//            while (musicCursor.moveToNext());
-//        }
-//
-//
-//    }
 
 
     @Override
@@ -122,14 +113,16 @@ public class songsFragment extends android.support.v4.app.Fragment implements Lo
 
         if (data.moveToFirst()) {
 
-            singleSongItem tempSongItem = new singleSongItem();
+            singleSongItem tempSongItem;
             do {
+                tempSongItem = new singleSongItem();
                 tempSongItem.setSongID(data.getLong(data.getColumnIndex("_ID")));
                 tempSongItem.setSongTitle(data.getString(data.getColumnIndex("TITLE")));
                 tempSongItem.setSongArtistTile(data.getString(data.getColumnIndex("ARTIST")));
                 tempSongItem.setSongDuration(data.getInt(data.getColumnIndex("DURATION")));
                 //tempSongItem.setSongIconId(data.getString(data.getColumnIndex("album_art")));
                 songsList.add(tempSongItem);
+                tempSongItem = null;
 
             }
             while (data.moveToNext());
@@ -142,5 +135,22 @@ public class songsFragment extends android.support.v4.app.Fragment implements Lo
     public void onLoaderReset(Loader<Cursor> loader) {
 
         mSimpleCursorAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+
     }
 }

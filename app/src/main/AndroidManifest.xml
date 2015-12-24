@@ -12,8 +12,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:label="@string/title_activity_main" >
+            android:label="@string/title_activity_main"
+            android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,16 +34,27 @@
         <activity
             android:name=".songPlayBackAcitivty"
             android:label="@string/title_activity_song_play_back_acitivty"
-            android:parentActivityName=".detailedAlbumActivity">
+            android:parentActivityName=".detailedAlbumActivity" >
 
             <!-- For supporting Versions lower than and 4.0 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.shoaib.gomusic.detailedAlbumActivity" />
-
         </activity>
 
         <service android:name="adapters_Miscellenous.musicService" />
+
+        <activity
+            android:name=".detailedArtistActivity"
+            android:label="@string/title_activity_detailed_artist"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity">
+
+            <!-- For supporting Versions lower than and 4.0 -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.shoaib.gomusic.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

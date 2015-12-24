@@ -96,6 +96,7 @@ public class singleAlbumItem implements Parcelable{
 
     @Override
     public int describeContents() {
+
         return 0;
     }
 
@@ -118,6 +119,7 @@ public class singleAlbumItem implements Parcelable{
 
         @Override
         public singleAlbumItem[] newArray(int i) {
+
             return new singleAlbumItem[i];
         }
     };

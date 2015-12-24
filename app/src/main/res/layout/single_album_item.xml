@@ -39,6 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Hello Text"
             android:layout_below="@+id/albumTitleText"
+            android:textColor="@color/link_text_material_light"
             android:lines="1"
             android:textSize="14sp" />
 
@@ -51,6 +52,7 @@
             android:layout_toRightOf="@+id/albumSingerText"
             android:layout_toEndOf="@+id/albumSingerText"
             android:text="N Song(s)"
+            android:textColor="@color/link_text_material_light"
             android:textSize="14sp" />
 
     </RelativeLayout>

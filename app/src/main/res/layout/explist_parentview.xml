@@ -37,7 +37,7 @@
         android:textSize="14sp"
         android:layout_marginLeft="10dp"
         android:text="Text For Test"
-        android:textColor="#000"/>
+        android:textColor="@color/link_text_material_light"/>
 
 
 </RelativeLayout>
