@@ -3,12 +3,13 @@ package adapters_Miscellenous;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.shoaib.gomusic.R;
 import com.example.shoaib.gomusic.singleSongItem;
@@ -51,15 +52,24 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.rowVie
 
         @Override
         public void onClick(View view) {
-            Intent mIntent = new Intent(context,songPlayBackAcitivty.class);
+            final Intent mIntent = new Intent(context,songPlayBackAcitivty.class);
             Bundle contentBundle = new Bundle();
-            singleSongItem clickedItem = songsList.get(getPosition());
-            contentBundle.putParcelable("songItemToSend", songsList.get(getPosition()));
-            contentBundle.putInt("songToSet", getPosition());
+            singleSongItem clickedItem = songsList.get(getAdapterPosition());
+            contentBundle.putParcelable("songItemToSend", songsList.get(getAdapterPosition()));
+            contentBundle.putInt("songToSet", getAdapterPosition());
             contentBundle.putParcelableArrayList("listOfSongs", songsList);
-            Toast.makeText(context, songsList.get(getPosition()).getSongTitle(), Toast.LENGTH_SHORT).show();
+            Snackbar.make(itemView,songsList.get(getAdapterPosition()).getSongTitle(), Snackbar.LENGTH_SHORT).show();
+            //Toast.makeText(context, songsList.get(getPosition()).getSongTitle(), Toast.LENGTH_SHORT).show();
             mIntent.putExtras(contentBundle);
-            context.startActivity(mIntent);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+
+                    context.startActivity(mIntent);
+                }
+            }, 1000);
+           // context.startActivity(mIntent);
         }
     }
 

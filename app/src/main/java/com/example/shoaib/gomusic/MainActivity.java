@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+  //  private CoordinatorLayout appBarLayout;
+  //  private AppBarLayout mToolBar;
     private Toolbar toolBar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -34,11 +36,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolBar = (Toolbar) findViewById(R.id.app_bar);
+        toolBar = (Toolbar) findViewById(R.id.mToolbar);
         setSupportActionBar(toolBar);
 
         contentResolver = getContentResolver();
-
+    //    appBarLayout = (CoordinatorLayout) findViewById(R.id.theCord);
+     //   mToolBar = (AppBarLayout)findViewById(R.id.theAppBarLayout);
         tabLayout = (TabLayout) findViewById(R.id.MaterialTabs);
 
         TabLayout.Tab songsTab = tabLayout.newTab().setText("Songs");
@@ -94,14 +97,23 @@ public class MainActivity extends AppCompatActivity {
         adapterForViewPager = new MyFragmentAdapter(getSupportFragmentManager());
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setOffscreenPageLimit(3);
+
+       // tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOffscreenPageLimit(4);
         viewPager.setAdapter(adapterForViewPager);  //passing an extended Fragment Pager Adapter
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
 
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-
+//
+//                AppBarLayout.LayoutParams mAppBarLayoutParams = (AppBarLayout.LayoutParams)mToolBar.getLayoutParams();
+//                mAppBarLayoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
+//                toolBar.setLayoutParams(mAppBarLayoutParams);
+//
+//                CoordinatorLayout.LayoutParams appBarLayoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+//                appBarLayoutParams.setBehavior(new AppBarLayout.Behavior());
+//                appBarLayout.setLayoutParams(appBarLayoutParams);
                 tabLayout.getTabAt(position);
 
             }
