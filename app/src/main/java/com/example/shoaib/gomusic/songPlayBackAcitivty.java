@@ -371,7 +371,7 @@ public class songPlayBackAcitivty extends AppCompatActivity implements LoaderMan
         });
 
         mMusicController.setMediaPlayer(this);
-        mMusicController.setAnchorView(findViewById(R.id.frameLayout));
+        mMusicController.setAnchorView(findViewById(R.id.mframeLayout));
         mMusicController.setEnabled(true);
 
 

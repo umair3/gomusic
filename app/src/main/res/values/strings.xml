@@ -13,17 +13,13 @@
     <string name="title_activity_song_play_back_acitivty">songPlayBackAcitivty</string>
     <string name="end_button">Exit The Player</string>
     <string name="title_activity_detailed_artist">detailedArtistActivity</string>
+    <string name="action_search">Search</string>
     <string-array name="tab_names">
-        <item
-        >songs</item>
-        <item
-            >artists</item>
-        <item
-            >albums</item>
-        <item
-            >playlists</item>
-        <item
-            >soundcloud</item>
-        </string-array>
+        <item>songs</item>
+        <item>artists</item>
+        <item>albums</item>
+        <item>playlists</item>
+        <item>soundcloud</item>
+    </string-array>
 
 </resources>

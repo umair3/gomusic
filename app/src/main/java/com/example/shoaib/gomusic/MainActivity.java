@@ -1,13 +1,13 @@
 package com.example.shoaib.gomusic;
 
 
-import android.content.ContentResolver;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import adapters_Miscellenous.Application_Class;
+import adapters_Miscellenous.SoundCloud_Class;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MyFragmentAdapter adapterForViewPager;
+    private static FragmentTransaction mTransaction;
 
     private static final int totalFragmentsCount = 5;
-    private ContentResolver contentResolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +41,8 @@ public class MainActivity extends AppCompatActivity {
         toolBar = (Toolbar) findViewById(R.id.mToolbar);
         setSupportActionBar(toolBar);
 
-        contentResolver = getContentResolver();
-    //    appBarLayout = (CoordinatorLayout) findViewById(R.id.theCord);
-     //   mToolBar = (AppBarLayout)findViewById(R.id.theAppBarLayout);
+        // Fragment transaction object initialized. it will be used to change the fragments when user logs in.
+        mTransaction =getSupportFragmentManager().beginTransaction();
         tabLayout = (TabLayout) findViewById(R.id.MaterialTabs);
 
         TabLayout.Tab songsTab = tabLayout.newTab().setText("Songs");
@@ -94,9 +95,8 @@ public class MainActivity extends AppCompatActivity {
         }
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        adapterForViewPager = new MyFragmentAdapter(getSupportFragmentManager());
-
         viewPager = (ViewPager) findViewById(R.id.pager);
+        adapterForViewPager = new MyFragmentAdapter(getSupportFragmentManager());
 
        // tabLayout.setupWithViewPager(viewPager);
         viewPager.setOffscreenPageLimit(4);
@@ -106,14 +106,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-//
-//                AppBarLayout.LayoutParams mAppBarLayoutParams = (AppBarLayout.LayoutParams)mToolBar.getLayoutParams();
-//                mAppBarLayoutParams.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS);
-//                toolBar.setLayoutParams(mAppBarLayoutParams);
-//
-//                CoordinatorLayout.LayoutParams appBarLayoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-//                appBarLayoutParams.setBehavior(new AppBarLayout.Behavior());
-//                appBarLayout.setLayoutParams(appBarLayoutParams);
+
                 tabLayout.getTabAt(position);
 
             }
@@ -132,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
 
     }
 
@@ -160,22 +152,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
+
+
 // Adapter of Fragments to be Passed to the ViewPager.
 // This Section Specifies What only and only FragmentPagerAdapter Should do.
 
 
-    public class MyFragmentAdapter extends FragmentPagerAdapter {
+    public class MyFragmentAdapter extends FragmentPagerAdapter implements soundCloudFragment.from_SoundCloudFragment_SignedIn {
+
+        FragmentManager mCurrentFragmentManager;
+        Fragment fragment = null;
+        //Does whatever need to be done to add new fragment for loggedIn soundCloud Fragment in ViewPager
+        @Override
+        public void onSignIn_InvokeNewFragment() {
 
 
+
+        }
         public MyFragmentAdapter(FragmentManager fm) {
-
             super(fm);
+
+            mCurrentFragmentManager =fm;
         }
 
         @Override
         public Fragment getItem(int position) {
 
-            Fragment fragment = null;
+
             if (position == 0) {
                // fragment = new songsFragment();
                 fragment = new songsFragment_withRecycler();
@@ -188,7 +192,20 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new playListFragment();
             }
             else if (position == 4) {
-                fragment = new soundCloudFragment();
+
+                    Application_Class.getsInstance();
+                if (SoundCloud_Class.getInstance().getOnceLoggedIn())
+                {
+                    fragment = new soundCloudLoggedIn_Fragment();
+                }
+                else
+                {
+                    //fragment = new soundCloudFragment(this);
+                    fragment = new rootFragment_toContain();
+                }
+
+
+
             }
             return fragment;
         }
@@ -199,9 +216,33 @@ public class MainActivity extends AppCompatActivity {
             return totalFragmentsCount;
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return getResources().getStringArray(R.array.tab_names)[position];
-        }
+
+
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return getResources().getStringArray(R.array.tab_names)[position];
+//        }
+    }
+
+    // Method responsible for bringin in the new fragment when the user has signed in
+    // this is called from the SoundCloud_class.java , when the background thread
+    // completes the sign in process.
+    public static void instantiateLoggedInFragment ()
+    {
+				/*
+				 * IMPORTANT: We use the "root frame" defined in
+				 * "root_fragment.xml" as the reference to replace fragment
+				 */
+
+                mTransaction.replace(R.id.root_frame, new soundCloudLoggedIn_Fragment());
+
+				/*
+				 * IMPORTANT: The following lines allow us to add the fragment
+				 * to the stack and return to it later, by pressing back
+				 */
+        mTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        mTransaction.addToBackStack(null);
+
+        mTransaction.commit();
     }
 }

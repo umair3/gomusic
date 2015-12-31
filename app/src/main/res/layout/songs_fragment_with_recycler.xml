@@ -29,6 +29,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff"
+        android:scrollbars="vertical"
+        android:scrollbarSize="10dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
     </android.support.v7.widget.RecyclerView>
