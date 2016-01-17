@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.shoaib.gomusic.R;
@@ -20,12 +22,14 @@ import java.util.ArrayList;
 /**
  * Created by Shoaib on 8/17/2015.
  */
-public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.rowViewHolder> {
+public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.rowViewHolder> implements Filterable {
 
 
+    public boolean whether_To_ImplementClickListener=true;
     private Context context;
     private LayoutInflater inflater;
-    private ArrayList<singleSongItem> songsList;
+    public ArrayList<singleSongItem> songsList;
+    public ArrayList<singleSongItem> UnchangedUnmodifiedSongsList;
 
 
     public class rowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -47,7 +51,13 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.rowVie
             songName = (TextView) itemView.findViewById(R.id.songTitleProper);
             songArtist = (TextView) itemView.findViewById(R.id.songArtistProper);
             songDuration = (TextView) itemView.findViewById(R.id.songDuration);
-            itemView.setOnClickListener(this);
+            if (whether_To_ImplementClickListener)
+            {
+                itemView.setOnClickListener(this);
+            }
+
+
+
         }
 
         @Override
@@ -55,6 +65,7 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.rowVie
             final Intent mIntent = new Intent(context,songPlayBackAcitivty.class);
             Bundle contentBundle = new Bundle();
             singleSongItem clickedItem = songsList.get(getAdapterPosition());
+            contentBundle.putString("Caller","songsFragment");
             contentBundle.putParcelable("songItemToSend", songsList.get(getAdapterPosition()));
             contentBundle.putInt("songToSet", getAdapterPosition());
             contentBundle.putParcelableArrayList("listOfSongs", songsList);
@@ -83,15 +94,20 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.rowVie
     public recyclerAdapter(ArrayList<singleSongItem> mSongsList) {
 
         this.songsList = mSongsList;
+        this.UnchangedUnmodifiedSongsList = new ArrayList<singleSongItem>();
+        this.UnchangedUnmodifiedSongsList.addAll(mSongsList);
 
     }
 
 
-    public recyclerAdapter(Context context, ArrayList<singleSongItem> theSongsList){
+    public recyclerAdapter(Context context, ArrayList<singleSongItem> theSongsList,boolean toImplement){
 
         this.context = context;
         this.songsList = theSongsList;
+        this.UnchangedUnmodifiedSongsList = new ArrayList<singleSongItem>();
+        this.UnchangedUnmodifiedSongsList.addAll(theSongsList);
         inflater = LayoutInflater.from(context);
+        whether_To_ImplementClickListener = toImplement;
 
 
 
@@ -153,6 +169,10 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.rowVie
         return songsList.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return new FilterClass(this,songsList);
+    }
 
 
 }

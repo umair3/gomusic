@@ -12,7 +12,7 @@
         android:gravity="center"
         android:textStyle="bold"
         android:text="checking"
-        android:textColor="@color/primary_material_light"
+        android:textColor="#fff"
         />
 
     <ImageView
@@ -20,5 +20,7 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center_horizontal"
+        android:tint="#fff"
       />
+
 </LinearLayout>

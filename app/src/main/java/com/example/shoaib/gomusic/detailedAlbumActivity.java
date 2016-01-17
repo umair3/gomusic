@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import adapters_Miscellenous.customSimpleCursorAdapter;
 
 
-public class detailedAlbumActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor>{
+public class detailedAlbumActivity extends AppCompatActivity implements android.support.v4.app.LoaderManager.LoaderCallbacks<Cursor> {
 
     private Toolbar mToolbar;
     private String selectedAlbum_Title;
@@ -30,7 +30,6 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
     private customSimpleCursorAdapter mSimpleCursorAdapter;
     private ListView mListView;
     private ArrayList<singleSongItem> songsList;
-
 
 
     @Override
@@ -51,15 +50,15 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
         mListView = (ListView) findViewById(R.id.albumSongslistView);
 
         Intent mIntent = getIntent();
-        Bundle b= mIntent.getExtras();
+        Bundle b = mIntent.getExtras();
         singleAlbumItem temptoAlbum = b.getParcelable("theAlbumToSend");
 
         //selectedAlbum_Title= mIntent.getStringExtra("the_Title");
-       // String mTitlePlusArt =
-        selectedAlbum_Title= temptoAlbum.getAlbumTitle();
+        // String mTitlePlusArt =
+        selectedAlbum_Title = temptoAlbum.getAlbumTitle();
         BitmapPathNeeded = temptoAlbum.getBitmapPath();
 
-        if (BitmapPathNeeded!=null){
+        if (BitmapPathNeeded != null) {
 
             Drawable drw = Drawable.createFromPath(BitmapPathNeeded);
 //            ColorMatrix matrix = new ColorMatrix();
@@ -73,13 +72,12 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
 
 
         getSupportActionBar().setTitle(selectedAlbum_Title);
-        getSupportLoaderManager().initLoader(0,null,this);
+        getSupportLoaderManager().initLoader(0, null, this);
         //getSongsForAlbum(selectedAlbum_ID);
         songsList = new ArrayList<singleSongItem>();
 
 
-       // mMusicService.passController(mMusicController);
-
+        // mMusicService.passController(mMusicController);
 
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,28 +86,27 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
 
-               Intent mIntent = new Intent(detailedAlbumActivity.this,songPlayBackAcitivty.class);
-               Bundle songItemBundle = new Bundle();
-               songItemBundle.putParcelable("songItemToSend",songsList.get(position));
-               songItemBundle.putInt("songToSet", position);
-               songItemBundle.putParcelableArrayList("listOfSongs", songsList);
-               Toast.makeText(getApplicationContext(),songsList.get(position).getSongTitle(),Toast.LENGTH_SHORT).show();
-               mIntent.putExtras(songItemBundle);
-               startActivity(mIntent);
+                Intent mIntent = new Intent(detailedAlbumActivity.this, songPlayBackAcitivty.class);
+                Bundle songItemBundle = new Bundle();
+                songItemBundle.putParcelable("songItemToSend", songsList.get(position));
+                songItemBundle.putInt("songToSet", position);
+                songItemBundle.putParcelableArrayList("listOfSongs", songsList);
+                songItemBundle.putString("Caller", "detailed_Activity");
+                Toast.makeText(getApplicationContext(), songsList.get(position).getSongTitle(), Toast.LENGTH_SHORT).show();
+                mIntent.putExtras(songItemBundle);
+                startActivity(mIntent);
 
             }
         });
 
-      //  setUpMusicController();  // Activate The MusicController Bar
-
-
+        //  setUpMusicController();  // Activate The MusicController Bar
 
 
 //        if (((Activity)this).isFinishing()) {
 //           // mediaController.show(5000);
 //            mMusicController.show(5000);
 //        }
-      // mMusicController.show(0);
+        // mMusicController.show(0);
 
     }
 
@@ -136,7 +133,7 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
 
     }
 
-    private void setBack (Drawable drw){
+    private void setBack(Drawable drw) {
 
 //        ImageView view = (ImageView) findViewById(R.id.backAlbumCover);
 //        view.setBackground(drw);
@@ -164,8 +161,7 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if (id == R.id.home){
+        } else if (id == R.id.home) {
 
             NavUtils.navigateUpFromSameTask(this);
 
@@ -187,9 +183,9 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
                 + "=?";
         //String toGet = Integer.toString(selectedAlbum_ID);
         String whereVal[] = new String[]{selectedAlbum_Title};
-        return new android.support.v4.content.CursorLoader(this,MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                new String[]{MediaStore.Audio.Media._ID,MediaStore.Audio.Media.TITLE,MediaStore.Audio.Media.ARTIST,MediaStore.Audio.Media.DURATION},where,whereVal,
-                MediaStore.Audio.Media.TITLE+ " ASC");
+        return new android.support.v4.content.CursorLoader(this, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                new String[]{MediaStore.Audio.Media._ID, MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.DURATION}, where, whereVal,
+                MediaStore.Audio.Media.TITLE + " ASC");
     }
 
     @Override
@@ -214,15 +210,14 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
         //ImageView mImage= (ImageView)mView.findViewById(R.id.img);
 
 
-
-        mSimpleCursorAdapter = new customSimpleCursorAdapter(this,R.layout.single_songproper_item2
-                ,data,
-                new String []{"TITLE","ARTIST","DURATION"},
-                new int []{R.id.songTitleProper2,R.id.songArtistProper2,R.id.songDuration2},0);
+        mSimpleCursorAdapter = new customSimpleCursorAdapter(this, R.layout.single_songproper_item2
+                , data,
+                new String[]{"TITLE", "ARTIST", "DURATION"},
+                new int[]{R.id.songTitleProper2, R.id.songArtistProper2, R.id.songDuration2}, 0);
 
         mListView.setAdapter(mSimpleCursorAdapter);
 
-        if (data.moveToFirst()){
+        if (data.moveToFirst()) {
 
             do {
                 singleSongItem mSongItem = new singleSongItem();
@@ -235,8 +230,7 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
                 //mAlbumItem.setAlbumTotalSongs(data.getInt(data.getColumnIndex("album_art")));
                 songsList.add(mSongItem);
             }
-            while(data.moveToNext());
-
+            while (data.moveToNext());
 
 
         }
@@ -280,8 +274,8 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
     protected void onDestroy() {
         super.onDestroy();
 
-      //  unbindService(mMusicServiceConnection);
-      //  mMusicServiceBound=false;
+        //  unbindService(mMusicServiceConnection);
+        //  mMusicServiceBound=false;
 
     }
 
@@ -290,4 +284,4 @@ public class detailedAlbumActivity extends AppCompatActivity implements android.
     //Helper Method to Setup Controller   ---- give this one A Look AfterWards
 
 
-    }
+}

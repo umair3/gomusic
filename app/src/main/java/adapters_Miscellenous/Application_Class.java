@@ -27,8 +27,15 @@ public class Application_Class extends Application {
 
     public static Context getAppContext ()
     {
+        if (sInstance==null)
+        {
+            return null;
+        }
+        else
+        {
+            return sInstance.getApplicationContext();
+        }
 
-        return sInstance.getApplicationContext();
     }
 
 }

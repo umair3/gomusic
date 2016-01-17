@@ -14,10 +14,21 @@ public class singleSongItem implements Parcelable {
     String songArtistTitle;
     private int songDuration;
 
+    public String getSongSource() {
+        return songSource;
+    }
+
+    public void setSongSource(String songSource) {
+        this.songSource = songSource;
+    }
+
+    private String songSource;
+
     public singleSongItem () {
 
 
     }
+
 
 
     public singleSongItem (long thesongID,String theSongTitle, String theSongArtistTitle ) {

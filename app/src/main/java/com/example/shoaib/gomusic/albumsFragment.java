@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,12 +15,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import adapters_Miscellenous.BitmapWorkerTask;
 import adapters_Miscellenous.DividerItemDecoration;
+import adapters_Miscellenous.albumFilterClass;
 
 //import adapters_Miscellenous.albumsExpandableListAdapter;
 //import adapters_Miscellenous.albumsListRecyclerAdapter;
@@ -35,7 +38,7 @@ public class albumsFragment extends android.support.v4.app.Fragment
 
     private RecyclerView albumsRecylerView;
     Uri albumsUri;
-    private albumRecyclerAdapter mAlbumsRecylerAdapter;
+    public albumRecyclerAdapter mAlbumsRecylerAdapter;
     private ArrayList<singleAlbumItem> albumsList;
 
 
@@ -63,41 +66,9 @@ public class albumsFragment extends android.support.v4.app.Fragment
 
         View layout = inflater.inflate(R.layout.fragment_albums, container, false);
         albumsRecylerView = (RecyclerView) layout.findViewById(R.id.albumsRecyclerList);
-
-//        albumsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//
-//                singleAlbumItem testItem = albumsList.get(position);
-//                Toast.makeText(getActivity(), testItem.getAlbumTitle(), Toast.LENGTH_SHORT).show();
-//                //String albumTitlePlusArt[] = new String [] {testItem.getAlbumTitle(),testItem.getBitmapPath()};
-//                Bundle albumItemBundle = new Bundle();
-//                albumItemBundle.putParcelable("theAlbumToSend", testItem);
-//                Intent albumIntent = new Intent(getActivity(), detailedAlbumActivity.class);
-//                albumIntent.putExtras(albumItemBundle);
-//                startActivity(albumIntent);
-//
-//            }
-//        });
-//        albumsUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
-//        getLoaderManager().initLoader(0, null, this);
-//        albumsList = new ArrayList<singleAlbumItem>();
-
-//        albumsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//
-//                singleAlbumItem testItem= albumsList.get(position);
-//                Toast.makeText(getActivity(), testItem.getAlbumTitle(), Toast.LENGTH_SHORT).show();
-//                //String albumTitlePlusArt[] = new String [] {testItem.getAlbumTitle(),testItem.getBitmapPath()};
-//                Bundle albumItemBundle = new Bundle();
-//                albumItemBundle.putParcelable("theAlbumToSend",testItem);
-//                Intent albumIntent = new Intent(getActivity(),detailedAlbumActivity.class);
-//                albumIntent.putExtras(albumItemBundle);
-//                startActivity(albumIntent);
-//
-//            }
-//        });
+        albumsRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
+        albumsRecylerView.addItemDecoration(itemDecoration);
 
         return layout;
     }
@@ -140,9 +111,7 @@ public class albumsFragment extends android.support.v4.app.Fragment
         }
         mAlbumsRecylerAdapter = new albumRecyclerAdapter(getActivity(),albumsList);
         albumsRecylerView.setAdapter(mAlbumsRecylerAdapter);
-        albumsRecylerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
-        albumsRecylerView.addItemDecoration(itemDecoration);
+
 
 
         //mSimpleCursorAdapter.swapCursor(data);
@@ -158,14 +127,18 @@ public class albumsFragment extends android.support.v4.app.Fragment
 
 
 
-    public class albumRecyclerAdapter extends RecyclerView.Adapter<albumRecyclerAdapter.albumRowViewHolder> {
+    public class albumRecyclerAdapter extends RecyclerView.Adapter<albumRecyclerAdapter.albumRowViewHolder> implements Filterable{
 
-        private ArrayList<singleAlbumItem> theAlbumsList;
+        public ArrayList<singleAlbumItem> theAlbumsList;
         private LayoutInflater layoutInflater;
         private Context context;
+        public ArrayList<singleAlbumItem> UnchangedUnmodifiedSongsList;
 
 
         public albumRecyclerAdapter(ArrayList<singleAlbumItem> theList) {
+
+            this.UnchangedUnmodifiedSongsList = new ArrayList<singleAlbumItem>();
+            this.UnchangedUnmodifiedSongsList.addAll(theList);
             this.theAlbumsList = theList;
 
         }
@@ -174,10 +147,13 @@ public class albumsFragment extends android.support.v4.app.Fragment
 
             this.context = context;
             this.theAlbumsList = theList;
+            this.UnchangedUnmodifiedSongsList = new ArrayList<singleAlbumItem>();
+            this.UnchangedUnmodifiedSongsList.addAll(theList);
             layoutInflater = LayoutInflater.from(context);
 
 
         }
+
 
         public class albumRowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -226,6 +202,13 @@ public class albumsFragment extends android.support.v4.app.Fragment
             }
         }
 
+        //Just a helper method that creates and runs the task to load albumArt
+        public void loadBitmap (String bitmapPath, ImageView mImage)
+        {
+            BitmapWorkerTask mTask = new BitmapWorkerTask(mImage);
+            mTask.execute(bitmapPath);
+        }
+
         @Override
         public albumRecyclerAdapter.albumRowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -244,22 +227,25 @@ public class albumsFragment extends android.support.v4.app.Fragment
             Bitmap art;
             if (mCurrentAlbumItem.getBitmapPath()!=null)
             {
-                art = BitmapFactory.decodeFile(mCurrentAlbumItem.getBitmapPath());
-                if (art != null) {
+                //set the current album's art on the background thread. by an asynctask
+                loadBitmap(mCurrentAlbumItem.getBitmapPath(),holder.albumArt);
 
-                    holder.albumArt.setImageBitmap(art);
-                    holder.albumArt.setAlpha(1.0f);
-                    //art = getRoundedShape(art);
-                    //((ImageView)view).setImageBitmap(art);
-                }
-                else {
-
-
-                    holder.albumArt.setImageResource(R.drawable.ic_album_black_48dp);
-                    holder.albumArt.setAlpha(0.5f);
-                    //   ((ImageView)view).setImageBitmap(toDefArt);
-                    //   ((ImageView)view).setAlpha(57.0f);
-                }
+//                art = BitmapFactory.decodeFile(mCurrentAlbumItem.getBitmapPath());
+//                if (art != null) {
+//
+//                    holder.albumArt.setImageBitmap(art);
+//                    holder.albumArt.setAlpha(1.0f);
+//                    //art = getRoundedShape(art);
+//                    //((ImageView)view).setImageBitmap(art);
+//                }
+//                else {
+//
+//
+//                    holder.albumArt.setImageResource(R.drawable.ic_album_black_48dp);
+//                    holder.albumArt.setAlpha(0.5f);
+//                    //   ((ImageView)view).setImageBitmap(toDefArt);
+//                    //   ((ImageView)view).setAlpha(57.0f);
+//                }
 
             }
             else
@@ -278,6 +264,11 @@ public class albumsFragment extends android.support.v4.app.Fragment
         @Override
         public int getItemCount() {
             return theAlbumsList.size();
+        }
+
+        @Override
+        public Filter getFilter() {
+            return new albumFilterClass(albumRecyclerAdapter.this,albumsList);
         }
     }
 

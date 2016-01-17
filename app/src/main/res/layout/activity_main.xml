@@ -1,127 +1,95 @@
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical"-->
-    <!--tools:context="com.example.shoaib.gomusic.MainActivity">-->
-
-    <!--<include-->
-        <!--android:id="@+id/app_bar"-->
-        <!--layout="@layout/app_bar">-->
-
-
-    <!--</include>-->
-
-
-    <!--<android.support.design.widget.TabLayout-->
-        <!--android:id="@+id/MaterialTabs"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@color/colorPrimary" >-->
-
-
-        <!--</android.support.design.widget.TabLayout>-->
-
-
-    <!--<android.support.v4.view.ViewPager-->
-        <!--android:id="@+id/pager"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="#fff"-->
-        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
-        <!-->-->
-
-
-        <!--</android.support.v4.view.ViewPager>-->
-
-
-
-
-
-
-    <!--&lt;!&ndash;  <it.neokree.materialtabs.MaterialTabHost-->
-
-          <!--android:id = "@+id/MaterialTabHost"-->
-          <!--android:layout_height="wrap_content"-->
-          <!--android:layout_width="match_parent"-->
-          <!--android:layout_below="@id/app_bar"-->
-          <!--app:primaryColor="@color/colorPrimary"-->
-          <!--app:accentColor="@color/colorAccent"-->
-
-          <!-->-->
-
-
-          <!--</it.neokree.materialtabs.MaterialTabHost> &ndash;&gt;-->
-
-<!--</LinearLayout>-->
-
-<android.support.design.widget.CoordinatorLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:id="@+id/theCord"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-    android:focusableInTouchMode="true">
-
-
-<android.support.design.widget.AppBarLayout
-    android:id="@+id/theAppBarLayout"
-    android:layout_height="wrap_content"
-    android:layout_width="match_parent">
-
-    <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/mToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:theme="@style/ThemeForToolBar"
-        app:layout_scrollFlags="scroll|enterAlways">
-
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.design.widget.TabLayout
-        android:id="@+id/MaterialTabs"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-
-        >
-<!--dont add scroll flag in tablayout otherwise it will aslo hide-->
-
-    </android.support.design.widget.TabLayout>
-
-
-
-</android.support.design.widget.AppBarLayout>
-
-<android.support.v4.view.ViewPager
-    android:id="@+id/pager"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
     >
 
 
-</android.support.v4.view.ViewPager>
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/theCord"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_informert"
+        android:focusableInTouchMode="true">
+
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/theAppBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/mToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/AppTheme"
+                app:theme="@style/ThemeForToolBar">
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/MaterialTabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="?attr/actionBarSize"
+                app:tabIndicatorColor="@color/colorAccentTemp"
+                app:tabIndicatorHeight="4dp"
+
+                >
+                <!--dont add scroll flag in tablayout otherwise it will aslo hide-->
+
+            </android.support.design.widget.TabLayout>
+
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            >
+
+
+        </android.support.v4.view.ViewPager>
 
 
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab1"-->
+
+
+        <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fabPlayPause"-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="end|bottom"-->
-        <!--app:fabSize="normal"-->
-        <!--android:src="@drawable/seach_hpdi_48dp"-->
-        <!--android:layout_marginRight="16dp"-->
         <!--android:layout_marginBottom="16dp"-->
+        <!--android:layout_marginRight="16dp"-->
         <!--android:padding="2dp"-->
-        <!--android:translationZ="4dp" />-->
+        <!--android:src="@drawable/_ic_play_icon_24dp"-->
+        <!--android:tint="#fff"-->
+        <!--android:translationZ="4dp"-->
+        <!--app:fabSize="normal"-->
+        <!--app:layout_anchor="@id/bottom_informert"-->
+        <!--app:layout_anchorGravity="right" />-->
 
 
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <include
+        android:id="@+id/bottom_informert"
+        layout="@layout/bottom_informer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center|bottom"
+        android:layout_alignParentBottom="true"
+        >
+
+
+    </include>
+
+</RelativeLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:padding="2dp"
+    app:theme="@style/ThemeForToolBar">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@id/bottom_informer"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_gravity="bottom"
+        android:background="#fff"
+      >
+
+        <ImageButton
+            android:id="@+id/bottom_informer_playPauseButton"
+            android:layout_alignParentRight="true"
+            android:contentDescription="Play/Pause"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:background="@android:color/white"
+            android:src="@drawable/_ic_play_circle_icon_black_24dp"
+            android:tint="@color/colorAccent"
+            android:layout_marginEnd="8dp"/>
+
+
+        <ImageView
+            android:id="@+id/bottom_informer_currentArt"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/artist_activity_background"
+            android:layout_marginLeft="@dimen/abc_action_bar_overflow_padding_end_material"
+            android:layout_marginTop="@dimen/abc_action_bar_overflow_padding_end_material"/>
+
+
+        <TextView
+            android:id="@+id/bottom_informer_currentSong"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bottom_informer_currentArt"
+            android:layout_marginTop="@dimen/abc_action_bar_overflow_padding_end_material"
+            android:layout_marginLeft="@dimen/abc_action_bar_overflow_padding_end_material"
+            android:text="Sample Song Name"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:lines="1"/>
+
+        <TextView
+            android:id="@+id/bottom_informer_currentArtist"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/bottom_informer_currentArt"
+            android:layout_below="@+id/bottom_informer_currentSong"
+            android:layout_marginTop="@dimen/abc_action_bar_overflow_padding_end_material"
+            android:layout_marginLeft="@dimen/abc_action_bar_overflow_padding_end_material"
+            android:text="Sample Artist Name"
+            android:lines="1"
+            android:textSize="16dp"/>
+
+
+    </RelativeLayout>
+</LinearLayout>

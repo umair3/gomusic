@@ -38,4 +38,14 @@ public class Network_VolleySingleton {
         return mRequestQueue;
     }
 
+    public static String queryChecker (String toCheck)
+    {
+        if (toCheck.contains(" "))
+        {
+            toCheck=toCheck.replaceAll(" ","%20");
+        }
+        return toCheck;
+
+    }
+
 }

@@ -14,6 +14,8 @@
     <string name="end_button">Exit The Player</string>
     <string name="title_activity_detailed_artist">detailedArtistActivity</string>
     <string name="action_search">Search</string>
+    <string name="search_hint">Search Desired Content</string>
+    <string name="search_soundCloud_hint">Search SoundCloud for Tracks</string>
     <string-array name="tab_names">
         <item>songs</item>
         <item>artists</item>

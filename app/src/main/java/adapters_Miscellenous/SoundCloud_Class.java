@@ -20,7 +20,7 @@ public class SoundCloud_Class {
     private static SoundCloud_Class sInstance = null;
     private static Context mGlobalContext = null;
 
-    private static final String prefsFile_Name="ApplicationPrefs";
+    public static final String prefsFile_Name="ApplicationPrefs";
 
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor mFileEditor;

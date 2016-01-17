@@ -7,6 +7,12 @@
         <item name="android:colorPrimary">@color/colorPrimary</item>
         <item name="android:colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:windowActionBarOverlay">true</item>
+
+        <!--<item name="colorPrimary">@color/colorPrimaryTemp</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDarkTemp</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+        <!--<item name="android:windowActionBarOverlay">true</item>-->
 
     </style>
 

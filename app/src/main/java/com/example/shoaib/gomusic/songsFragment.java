@@ -29,13 +29,19 @@ import adapters_Miscellenous.customSimpleCursorAdapter;
  */
 public class songsFragment extends android.support.v4.app.Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
+//THIS CLASS IS NOT BEING USED NOW....CLASS WITH RECYCLERVIEW IS BEING USED NOW
+
 
 //    private RecyclerView recyclerView;
 //    private static ArrayList<singleSongItem> songsList;
 //    songsListRecyclerAdapter madapter;
 //    private ContentResolver contentResolver;
 
-    private Uri songsUri;
+
+
+    private Uri songsUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+
+
     private ArrayList<singleSongItem> songsList;
     private ListView mListView;
     private customSimpleCursorAdapter mSimpleCursorAdapter;
@@ -62,7 +68,7 @@ public class songsFragment extends android.support.v4.app.Fragment implements Lo
         View layout = inflater.inflate(R.layout.fragment_songs, container, false);
 
 
-        songsUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        //songsUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         songsList= new ArrayList<singleSongItem>();
         getLoaderManager().initLoader(10, null, this);
         mListView = (ListView) layout.findViewById(R.id.songsListView);

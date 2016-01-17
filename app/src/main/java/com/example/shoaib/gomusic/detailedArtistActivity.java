@@ -56,6 +56,7 @@ public class detailedArtistActivity extends AppCompatActivity implements LoaderM
                 songItemBundle.putParcelable("songItemToSend",songsList.get(position));
                 songItemBundle.putInt("songToSet", position);
                 songItemBundle.putParcelableArrayList("listOfSongs", songsList);
+                songItemBundle.putString("Caller", "detailed_Activity");
                 Toast.makeText(getApplicationContext(), songsList.get(position).getSongTitle(), Toast.LENGTH_SHORT).show();
                 mIntent.putExtras(songItemBundle);
                 startActivity(mIntent);

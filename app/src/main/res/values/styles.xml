@@ -10,6 +10,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowActionBarOverlay">true</item>
 
         <!-- Customize your theme here. -->
     </style>
@@ -17,10 +18,24 @@
     <style name="ThemeForToolBar" parent="ThemeOverlay.AppCompat.Light">
 
 
-        <item name="android:textColorPrimary">#FFF</item>
-        <item name="android:textColorSecondary">#FFF</item>
+        <item name="android:textColorPrimary">#fff</item>
+        <item name="android:textColorSecondary">#fff</item>
+
+        <!--<item name="android:textColorPrimary">#000</item>-->
+        <!--<item name="android:textColorSecondary">#000</item>-->
 
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+        <item name="tabMaxWidth">@dimen/tab_max_width</item>
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabTextAppearance">@style/TextAppearance.Design.Tab</item>
+        <item name="tabSelectedTextColor">?android:textColorPrimary</item>
     </style>
 
 </resources>
