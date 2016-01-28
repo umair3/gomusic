@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import adapters_Miscellenous.Network_VolleySingleton;
 import adapters_Miscellenous.scResponseKeys;
@@ -50,11 +51,14 @@ public class soundCloudLoggedIn_Fragment extends android.support.v4.app.Fragment
         super.onCreate(savedInstanceState);
 
         wait_forSongs_IndicatorBar = new ProgressDialog(getActivity());
-        wait_forSongs_IndicatorBar.setMessage("Fetching Audio Content");
-        wait_forSongs_IndicatorBar.setTitle("SoundCloud Query");
+        wait_forSongs_IndicatorBar.setMessage("Searching on SoundCloud...");
+        wait_forSongs_IndicatorBar.setTitle("Searching...");
+
+        // Maintain a list of recently played SoundCloud items and
+        // Show list of recently played SoundCloud items by default.
         mSoundCloudAudioList = new ArrayList<soundCloudSingleAudioItem>();
         soundCloudSingleAudioItem mSampleItem = new soundCloudSingleAudioItem();
-        mSampleItem.setAudioTitle("Search Desired Content in the Search Bar");
+        mSampleItem.setAudioTitle("Show recently played SoundCloud items here.");
         mSampleItem.setWhetherAudioStreamable(true);
         mSampleItem.setSharedType("Public");
         mSoundCloudAudioList.add(mSampleItem);
@@ -123,6 +127,7 @@ public class soundCloudLoggedIn_Fragment extends android.support.v4.app.Fragment
                 mTempItem.setWhetherAudioStreamable(mTempObject.getBoolean(scResponseKeys.SongObjectEndpoints.Key_audioStreamable));
                 mTempItem.setAudioStreamingUrL(mTempObject.getString(scResponseKeys.SongObjectEndpoints.Key_audioStreamingUrL));
                 mTempItem.setArtWorkUrl(mTempObject.getString(scResponseKeys.SongObjectEndpoints.Key_artWork));
+                mTempItem.setAudioDuration(mTempObject.getLong(scResponseKeys.SongObjectEndpoints.Key_audioDuration));
                 mSoundCloudAudioList.add(mTempItem);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -206,7 +211,24 @@ public class soundCloudLoggedIn_Fragment extends android.support.v4.app.Fragment
 
             (holder.scAudioTitle).setText(scTempItem.getAudioTitle());
             (holder.scAudioFrom).setText(String.valueOf(scTempItem.getSharedType()));
-            (holder.scAudioDuration).setText("just Testing");
+
+            long millis = (long)scTempItem.getAudioDuration();
+            String hms;
+            if (TimeUnit.MILLISECONDS.toHours(millis) > 0) {
+
+                hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+                        TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                        TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+
+            }else{
+                hms = String.format("%02d:%02d",
+                        TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+                        TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+            }
+
+
+
+            (holder.scAudioDuration).setText(hms);
         }
 
         @Override

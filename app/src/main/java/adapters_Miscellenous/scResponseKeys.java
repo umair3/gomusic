@@ -17,5 +17,7 @@ public interface scResponseKeys {
 
         public static final String Key_audioTitle = "title";
 
+        public static final String Key_audioDuration = "duration";
+
     }
 }

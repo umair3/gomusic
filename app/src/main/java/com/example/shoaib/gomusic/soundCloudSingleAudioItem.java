@@ -11,6 +11,7 @@ public class soundCloudSingleAudioItem {
     public String artWorkUrl;
     public String audioStreamingUrL;
     public String audioTitle;
+    public long audioDuration;
 
 
     public boolean isWhetherAudioStreamable() {
@@ -51,6 +52,14 @@ public class soundCloudSingleAudioItem {
 
     public void setAudioTitle(String audioTitle) {
         this.audioTitle = audioTitle;
+    }
+
+    public long getAudioDuration() {
+        return audioDuration;
+    }
+
+    public void setAudioDuration(long audioDuration) {
+        this.audioDuration = audioDuration;
     }
 
 

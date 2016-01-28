@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/gomusic.iml" filepath="$PROJECT_DIR$/gomusic.iml" />
       <module fileurl="file://$PROJECT_DIR$/java-api-wrapper-master/java-api-wrapper-master.iml" filepath="$PROJECT_DIR$/java-api-wrapper-master/java-api-wrapper-master.iml" />
-      <module fileurl="file://$PROJECT_DIR$/java-api-wrapper-master/java-api-wrapper-master.iml" filepath="$PROJECT_DIR$/java-api-wrapper-master/java-api-wrapper-master.iml" />
     </modules>
   </component>
 </project>
