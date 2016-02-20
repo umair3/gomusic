@@ -2,6 +2,8 @@ package com.example.shoaib.gomusic;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +25,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -200,14 +206,58 @@ public class soundCloudLoggedIn_Fragment extends android.support.v4.app.Fragment
 
         }
 
+
+
+        public boolean loadImageFromURL(String fileUrl,
+                                        ImageView iv){
+            try {
+
+
+                URL myFileUrl = new URL (fileUrl);
+                HttpURLConnection conn =
+                        (HttpURLConnection) myFileUrl.openConnection();
+                conn.setDoInput(true);
+                conn.connect();
+
+                InputStream is = conn.getInputStream();
+                iv.setImageBitmap(BitmapFactory.decodeStream(is));
+
+                return true;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
         @Override
-        public void onBindViewHolder(scRecyclerAdapter.viewHolder holder, int position) {
+        public void onBindViewHolder(final scRecyclerAdapter.viewHolder holder, int position) {
 
             soundCloudSingleAudioItem scTempItem = scAudioList.get(position);
 
-            holder.scAudioArt.setImageResource(R.drawable.ic_album_black_48dp);
-            holder.scAudioArt.setAlpha(0.5f);
+            final String imageURL = scTempItem.getArtWorkUrl();
 
+            if(imageURL != null && !imageURL.isEmpty()){
+                //holder.scAudioArt.setImageURI(Uri.parse(scTempItem.getArtWorkUrl()));
+                //holder.scAudioArt.setImageURI();
+                //holder.scAudioArt.setAlpha(0.5f);
+                Runnable runnable = new Runnable() {
+                    public void run() {
+                        //Code adding here...
+                        loadImageFromURL(imageURL,holder.scAudioArt);
+                    }
+                };
+                new Thread(runnable).start();
+
+                loadImageFromURL(imageURL,holder.scAudioArt);
+                //holder.scAudioArt.setImageResource(R.drawable.ic_album_black_48dp);
+
+            } else {
+                holder.scAudioArt.setImageResource(R.drawable.ic_album_black_48dp);
+            }
 
             (holder.scAudioTitle).setText(scTempItem.getAudioTitle());
             (holder.scAudioFrom).setText(String.valueOf(scTempItem.getSharedType()));
