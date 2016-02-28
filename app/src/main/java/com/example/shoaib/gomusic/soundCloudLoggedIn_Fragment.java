@@ -2,10 +2,9 @@ package com.example.shoaib.gomusic;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,6 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import adapters_Miscellenous.Application_Class;
 import adapters_Miscellenous.Network_VolleySingleton;
 import adapters_Miscellenous.scResponseKeys;
 
@@ -53,7 +53,7 @@ public class soundCloudLoggedIn_Fragment extends android.support.v4.app.Fragment
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         wait_forSongs_IndicatorBar = new ProgressDialog(getActivity());
@@ -112,7 +112,7 @@ public class soundCloudLoggedIn_Fragment extends android.support.v4.app.Fragment
                 {
                     wait_forSongs_IndicatorBar.dismiss();
                 }
-                Toast.makeText(getActivity(), "Error aya he", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Error encountered", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -193,6 +193,21 @@ public class soundCloudLoggedIn_Fragment extends android.support.v4.app.Fragment
                 scAudioTitle = (TextView) itemView.findViewById(R.id.albumTitleText);
                 scAudioFrom = (TextView) itemView.findViewById(R.id.albumSingerText);
                 scAudioDuration = (TextView) itemView.findViewById(R.id.albumTotalSongsText);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //Bundle created with ArrayList for SongsSearched from SoundCloud attached to it
+                        Bundle bundle_To_Pass = new Bundle();
+                        bundle_To_Pass.putParcelableArrayList(Application_Class.Tag_soundCloudAudioItemsArrayList_toPass,scAudioList);
+                        bundle_To_Pass.putString(Application_Class.Tag_CallerFor_scPlaybackActivity,Application_Class.Name_Fragment_SC);
+                        bundle_To_Pass.putInt(Application_Class.Tag_scFragmentList_CurrentItemIndex,getAdapterPosition());
+                        //Creating the intent to start the scPlayBackActivity
+                        Intent mIntent = new Intent(getActivity(),scPlaybackAcitivty.class);
+                        mIntent.putExtras(bundle_To_Pass);
+                        startActivity(mIntent);
+
+                    }
+                });
             }
         }
 
@@ -221,6 +236,8 @@ public class soundCloudLoggedIn_Fragment extends android.support.v4.app.Fragment
 
                 InputStream is = conn.getInputStream();
                 iv.setImageBitmap(BitmapFactory.decodeStream(is));
+
+                conn.disconnect(); //chaning made my shoaib anwar
 
                 return true;
 
@@ -252,7 +269,7 @@ public class soundCloudLoggedIn_Fragment extends android.support.v4.app.Fragment
                 };
                 new Thread(runnable).start();
 
-                loadImageFromURL(imageURL,holder.scAudioArt);
+               // loadImageFromURL(imageURL,holder.scAudioArt);
                 //holder.scAudioArt.setImageResource(R.drawable.ic_album_black_48dp);
 
             } else {

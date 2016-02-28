@@ -201,8 +201,8 @@ public class musicService extends Service implements MediaPlayer.OnErrorListener
 
     public int getBufferAge(){
 
-        int percentage = (mMediaPlayer.getCurrentPosition() * 100) / mMediaPlayer.getDuration();
-        return percentage;
+//        int percentage = (mMediaPlayer.getCurrentPosition() * 100) / mMediaPlayer.getDuration();
+        return 0;
     }
 
 

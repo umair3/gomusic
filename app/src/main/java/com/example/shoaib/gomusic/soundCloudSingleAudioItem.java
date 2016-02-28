@@ -1,9 +1,12 @@
 package com.example.shoaib.gomusic;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Shoaib on 1/4/2016.
  */
-public class soundCloudSingleAudioItem {
+public class soundCloudSingleAudioItem implements Parcelable {
 
 
     public String sharedType;
@@ -13,7 +16,20 @@ public class soundCloudSingleAudioItem {
     public String audioTitle;
     public long audioDuration;
 
+    public soundCloudSingleAudioItem(){
 
+
+    }
+
+    public soundCloudSingleAudioItem(soundCloudSingleAudioItem mItem){
+        this.sharedType =mItem.sharedType;
+        this.whetherAudioStreamable = mItem.whetherAudioStreamable;
+        this.artWorkUrl= mItem.artWorkUrl;
+        this.audioStreamingUrL = mItem.audioStreamingUrL;
+        this.audioTitle = mItem.audioTitle;
+        this.audioDuration = mItem.audioDuration;
+
+    }
     public boolean isWhetherAudioStreamable() {
         return whetherAudioStreamable;
     }
@@ -63,7 +79,41 @@ public class soundCloudSingleAudioItem {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(sharedType);
+        parcel.writeByte((byte) (whetherAudioStreamable ? 1 : 0));
+        parcel.writeString(artWorkUrl);
+        parcel.writeString(audioStreamingUrL);
+        parcel.writeString(audioTitle);
+        parcel.writeLong(audioDuration);
+    }
+
+    public static final Creator<soundCloudSingleAudioItem> CREATOR = new Creator<soundCloudSingleAudioItem>() {
+        @Override
+        public soundCloudSingleAudioItem createFromParcel(Parcel in) {
+            return new soundCloudSingleAudioItem(in);
+        }
+
+        @Override
+        public soundCloudSingleAudioItem[] newArray(int size) {
+            return new soundCloudSingleAudioItem[size];
+        }
+    };
+
+    protected soundCloudSingleAudioItem(Parcel in) {
+        sharedType = in.readString();
+        whetherAudioStreamable = in.readByte() != 0;
+        artWorkUrl = in.readString();
+        audioStreamingUrL = in.readString();
+        audioTitle = in.readString();
+        audioDuration = in.readLong();
+    }
 
 
 }

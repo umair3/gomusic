@@ -24,4 +24,8 @@
         <item>soundcloud</item>
     </string-array>
 
+    <string name="title_activity_sc_playback_acitivty">scPlaybackAcitivty</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>

@@ -66,15 +66,9 @@ public class songsFragment_withRecycler extends android.support.v4.app.Fragment 
         // Inflate the layout for this fragment
         View layout = inflater.inflate(R.layout.songs_fragment_with_recycler, container, false);
         mSongsRecyclerList = (RecyclerView) layout.findViewById(R.id.songsRecyclerList);
-       // fastScroller= (VerticalRecyclerViewFastScroller) layout.findViewById(R.id.fast_scroller);
-       // mSongsListAdapter = new recyclerAdapter(getActivity(),songsList);
-       // mSongsRecyclerList.setAdapter(mSongsListAdapter);
         mSongsRecyclerList.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST);
         mSongsRecyclerList.addItemDecoration(itemDecoration);
-
-        //Assigning a scrollbar to our recyclerView
-       // assignFastScrollerToRecyclerView ();
 
         return layout;
     }

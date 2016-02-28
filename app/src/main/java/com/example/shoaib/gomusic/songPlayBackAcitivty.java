@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import adapters_Miscellenous.Application_Class;
 import adapters_Miscellenous.musicController;
 import adapters_Miscellenous.musicService;
 import adapters_Miscellenous.recyclerAdapter;
@@ -55,10 +56,8 @@ public class songPlayBackAcitivty extends AppCompatActivity implements MediaCont
         setContentView(R.layout.activity_song_play_back_acitivty);
 
         mToolbar = (Toolbar) findViewById(R.id.mainapp_bar);
-        //mToolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(mToolbar);
         CollapsingToolbarLayout mCollapse = (CollapsingToolbarLayout) findViewById(R.id.main_collapsing);
-        mCollapse.setTitle("Song PlayBack");
 
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -68,39 +67,27 @@ public class songPlayBackAcitivty extends AppCompatActivity implements MediaCont
         recylerView_ForSongs_FromSame_Album = (RecyclerView) findViewById(R.id.mRecylerInsideSongPlayback);
         recylerView_ForSongs_FromSame_Album.setLayoutManager(new LinearLayoutManager(this));
 
-
-        // mToolbar.setAlpha(0.6f);
-        //mToolbar.setBackgroundColor(Color.TRANSPARENT);
-
-        //songsListForPlayBack = new ArrayList<singleSongItem>();
-
         Intent mIntent = getIntent();
         Bundle b = mIntent.getExtras();
 
-        if (b.getString("Caller", "cantSay").equals("songsFragment")) {
+        if (b.getString(Application_Class.Tag_CallerFor_songPlayBackActivity, "cantSay").equals(Application_Class.Name_Fragment_Songs))
+        {
             songNowPlaying = b.getParcelable("songItemToSend");
             received_Song_Index = b.getInt("songToSet");
             songsListForPlayBack = b.getParcelableArrayList("listOfSongs");
             mImageView = (ImageView) findViewById(R.id.albumImageForSongActivity);
-
             Adapter_For_RecyclerView = new recyclerAdapter(this, songsListForPlayBack, false);
             recylerView_ForSongs_FromSame_Album.setAdapter(Adapter_For_RecyclerView);
-            // recylerView_ForSongs_FromSame_Album.setMinimumHeight(0);
-            // recylerView_ForSongs_FromSame_Album.setNestedScrollingEnabled(false);
             recylerView_ForSongs_FromSame_Album.setHasFixedSize(false);
-        } else if (b.getString("Caller", "cantSay").equals("detailed_Activity")) {
+        }
+        else if (b.getString(Application_Class.Tag_CallerFor_songPlayBackActivity, "cantSay").equals(Application_Class.Name_Activity_DetailedActivity))
+        {
             songNowPlaying = b.getParcelable("songItemToSend");
             received_Song_Index = b.getInt("songToSet");
             songsListForPlayBack = b.getParcelableArrayList("listOfSongs");
             mImageView = (ImageView) findViewById(R.id.albumImageForSongActivity);
-//            mSongTitle = (TextView) findViewById(R.id.songNameForSongActivity);
-//            mSongAlbumTitle = (TextView) findViewById(R.id.artistNameForSongActivity);
-//            mSongTitle.setText(songNowPlaying.getSongTitle());
-//            mSongAlbumTitle.setText(songNowPlaying.getSongArtistTile());
             Adapter_For_RecyclerView = new recyclerAdapter(this, songsListForPlayBack, false);
             recylerView_ForSongs_FromSame_Album.setAdapter(Adapter_For_RecyclerView);
-            // recylerView_ForSongs_FromSame_Album.setMinimumHeight(0);
-            // recylerView_ForSongs_FromSame_Album.setNestedScrollingEnabled(false);
             recylerView_ForSongs_FromSame_Album.setHasFixedSize(false);
 
 
@@ -113,7 +100,6 @@ public class songPlayBackAcitivty extends AppCompatActivity implements MediaCont
 //            matrix.setSaturation(0); //0 means grayscale
 //            ColorMatrixColorFilter cf = new ColorMatrixColorFilter(matrix);
 //            drw.setColorFilter(cf);
-
             Bitmap bitmap = BitmapFactory.decodeFile(songNowPlaying.getSongIconId());
             mImageView.setImageBitmap(bitmap);
 
